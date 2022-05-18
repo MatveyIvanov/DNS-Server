@@ -27,19 +27,19 @@ class UDP:
 
     def __init__(self, message) -> None:
         self.__message = message
-        self.__validated_data = None
+        self.__validated_response = None
 
     @property
-    def data(self) -> bytes:
-        return self.__build()
+    def builded_request(self) -> bytes:
+        return self.__build_request()
 
     @property
-    def validated_data(self) -> Dict:
-        if not self.__validated_data:
+    def validated_response(self) -> Dict:
+        if not self.__validated_response:
             raise ValidationError('Response query is not validated yet. To perform validation, use <udp_object>.validate(data=<data>)')
-        return self.__validated_data
+        return self.__validated_response
 
-    def __build(self) -> bytes:
+    def __build_request(self) -> bytes:
         """
         Build UDP packet with defined message for DNS query
         """
@@ -80,7 +80,7 @@ class UDP:
         self.DNS_QUERY['qclass'] = '0x0001'  # For IN or Internet.
 
     def validate(self, data: bytes) -> None:
-        self.__validated_data = self.__handle_response_query(data=data)
+        self.__validated_response = self.__handle_response_query(data=data)
 
     def __handle_response_query(self, data: bytes) -> dict:
         result = {

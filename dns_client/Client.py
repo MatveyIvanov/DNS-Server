@@ -17,7 +17,7 @@ class Client:
         """Send the packet to the server"""
         self.udp = UDP(message=domain_name)
         self.__send_dns_query(
-            self.udp.data,
+            self.udp.builded_request,
             (self.DNS_IP, self.DNS_PORT)
         )
 
@@ -31,7 +31,7 @@ class Client:
         data, address = self.__recieve_data()
         self.udp.validate(data)
 
-        return self.udp.validated_data
+        return self.udp.validated_response
 
     def __send_dns_query(self, udp: bytes, address: tuple) -> None:
         self.client.sendto(udp, address)

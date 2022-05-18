@@ -10,8 +10,9 @@ if __name__ == "__main__":
     try:
         domain_name = sys.argv[1]
     except IndexError:
-        print('Domain name is required.\n \
-            Command example: python main.py www.example.com')
+        print('\n\
+        Domain name is required.\n\n\
+        Command example: python main.py www.example.com')
 
         sys.exit(0)
 
@@ -28,7 +29,11 @@ if __name__ == "__main__":
 
     # Check for errors
     if result['errors'] is not None:
-        print(f"There was an error while handling a dns query.\n \
-                Error message: {result['errors']}")
+        print(f"\n\
+        There was an error while handling a dns query.\n\n\
+        Error message: {result['errors']}")
     else:
-        print(f"Success!\n\nDomain name: {result['domain_name']}\nIP address: {result['ip_address']}")
+        print(f"\n\
+        Success!\n\n\
+        Domain name: {result['domain_name']}\n\
+        IP address: {result['ip_address']}")
