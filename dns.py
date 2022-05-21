@@ -5,6 +5,7 @@ from dns_client.exceptions import ValidationError
 
 
 MAX_QUERIES_TO_GET_NEW_IP = 15
+MAX_QUERIES = 100
 MANY_FLAGS = ('-a', '--all') # If set then check for more than 1 IP
 
 
@@ -40,8 +41,10 @@ if __name__ == "__main__":
 
     DNS_Client = Client()
     repeat_count = 0
-    while True:
+    query_count = 0
+    while query_count < MAX_QUERIES:
         try:
+            query_count += 1
             # Send packet
             DNS_Client.send(domain_name=domain_name)
             # Recieve packet
@@ -74,15 +77,14 @@ if __name__ == "__main__":
         There was an error while handling a dns query.\n\n\
         Error message: {result['errors']}")
     else:
-        print(f"\n\
-        Success!\n\n\
-        Domain name: {result['domain_name']}")
-        if len(result['ip_addresses']) == 1:
-            print("\n\
-        IP address:   --------------\n", end='')
-        else:
-            print("\n\
-        IP addresses:   --------------\n", end='')
-        for ip in result['ip_addresses']:
-            print(f"\
-                        {ip}")
+        ip_text = 'IP address:'
+        if len(result['ip_addresses']) > 1:
+            ip_text = 'IP addresses:'
+            
+        ip_addresses = f'{result["ip_addresses"].pop()}\n                          '
+        ip_addresses += '\n                          '.join(result["ip_addresses"])
+
+        print(f"\
+            Success!\n\
+            Domain name: {result['domain_name']}\n\
+            {ip_text} {ip_addresses}")
