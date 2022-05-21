@@ -15,13 +15,10 @@ def process_dns_query(domain_name: str, many: bool) -> dict:
 
     DNS_Client = Client()
     repeat_count = 0
-    total_repeat_count = 0
-    while True:
+    query_count = 0
+    while query_count < MAX_QUERIES:
         try:
-            # Check for queries limit
-            total_repeat_count += 1
-            if total_repeat_count > MAX_QUERIES:
-                break
+            query_count += 1
 
             # Send packet
             DNS_Client.send(domain_name=domain_name)
