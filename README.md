@@ -2,7 +2,7 @@
 
 Программа позволяет получить IP адрес по доменному имени.\
 [Последняя консольная версия программы](https://github.com/MatveyIvanov/DNS-Client/releases/tag/v1.0.2-console)\
-[Последняя GUI версия программы](https://github.com/MatveyIvanov/DNS-Client/releases/tag/v1.0.1-gui)\
+[Последняя GUI версия программы](https://github.com/MatveyIvanov/DNS-Client/releases/tag/v1.0.2-gui)\
 Ниже приведена инструкция для разработки.
 
 # Разработка
