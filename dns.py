@@ -2,11 +2,13 @@ import sys
 import re
 from dns_client.Client import Client
 from dns_client.exceptions import ValidationError
+from dns_client.utils import print_help
 
 
 MAX_QUERIES_TO_GET_NEW_IP = 15
 MAX_QUERIES = 100
 MANY_FLAGS = ('-a', '--all') # If set then check for more than 1 IP
+HELP_FLAGS = ('-h', '--help')
 
 
 if __name__ == "__main__":
@@ -16,20 +18,24 @@ if __name__ == "__main__":
 
     try:
         domain_name = sys.argv[1]
+        if domain_name in HELP_FLAGS:
+            print_help()
+            sys.exit(0)
     except IndexError:
         print('\n\
         Domain name is required.\n\n\
-        Command example: python main.py www.example.com')
+        Command example: dns www.example.com\n\
+        Type dns -h(--help) for more information')
 
         sys.exit(0)
 
     try:
-        many = sys.argv[2]
-        if many not in MANY_FLAGS:
-            print("Invalid flag. If you want to get more than 1 IP, then user -a or --all flag.")
-
+        flag = sys.argv[2]
+        if flag in MANY_FLAGS:
+            many = True
+        else:
+            print("Invalid flag. Type dns -h(--help) for more information.")
             sys.exit(0)
-        many = True
     except IndexError:
         pass
 

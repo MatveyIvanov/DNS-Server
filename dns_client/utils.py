@@ -18,3 +18,11 @@ def to_hex_string(value: Union[str, int]) -> str:
         result = ''.join([hex(ord(symbol))[2:] for symbol in value])
 
     return '0x' + result
+
+
+def print_help():
+    print('\n\
+        dns cli can help you get the IP address(es) for the provided domain name\n\n\
+        Usage: dns <domain_name> [-a(--all)]\n\n\
+        Available flags: -a(--all) - checks for multiple IP addresses for the provided domain name\
+    ')
