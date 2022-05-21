@@ -1,5 +1,6 @@
 from dns_client.Client import Client
 from dns_client.exceptions import ValidationError
+from dns_client import utils
 
 
 MAX_QUERIES_TO_GET_NEW_IP = 15
@@ -8,10 +9,15 @@ MANY_FLAGS = ('-a', '--all') # If set then check for more than 1 IP
 
 def process_dns_query(domain_name: str, many: bool) -> dict:
     result = {
-        'domain_name': None,
+        'domain_name': domain_name,
         'ip_addresses': set(),
         'errors': None
     }
+
+    local_response = utils.check_local_dns_records(domain_name=domain_name)
+    if local_response != '':
+        result['ip_addresses'].add(local_response)
+        return result
 
     DNS_Client = Client()
     repeat_count = 0

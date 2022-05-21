@@ -1,9 +1,9 @@
-from tkinter import ACTIVE
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 
 from dns_client.dns_utils import process_dns_query
+from dns_client import utils
 
 TEXT_COLOR = (255, 255, 255, 0.87)
 
@@ -142,24 +142,13 @@ class DNSWidget(QWidget):
     def __get_ips(self) -> dict:
         return process_dns_query(
             domain_name=self.domain_name.text(),
-            many=self.many.isChecked())
+            many=self.many.isChecked()
+        )
 
     def __show_ips(self):
         result = self.__get_ips()
         # Check for errors
         if result['errors']:
-            self.response.setText(f"\n\
-            There was an error while handling a dns query.\n\n\
-            Error message: {result['errors']}")
+            self.response.setText(utils.pretty_errors(errors=result['errors']))
         else:
-            ip_text = 'IP address:'
-            if len(result['ip_addresses']) > 1:
-                ip_text = 'IP addresses:'
-            
-            ip_addresses = f'{result["ip_addresses"].pop()}\n                                    '
-            ip_addresses += '\n                                    '.join(result["ip_addresses"])
-
-            self.response.setText(f"\
-            Success!\n\
-            Domain name: {result['domain_name']}\n\
-            {ip_text}   {ip_addresses}")
+            self.response.setText(utils.pretty_response(data=result))
