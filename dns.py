@@ -2,7 +2,7 @@ import sys
 import re
 from dns_client.Client import Client
 from dns_client.exceptions import ValidationError
-from dns_client.utils import print_help
+from dns_client import utils
 
 
 MAX_QUERIES_TO_GET_NEW_IP = 15
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     try:
         domain_name = sys.argv[1]
         if domain_name in HELP_FLAGS:
-            print_help()
+            utils.print_help()
             sys.exit(0)
     except IndexError:
         print('\n\
@@ -40,10 +40,16 @@ if __name__ == "__main__":
         pass
 
     result = {
-        'domain_name': None,
+        'domain_name': domain_name,
         'ip_addresses': set(),
         'errors': None
     }
+
+    local_response = utils.check_local_dns_records(domain_name=domain_name)
+    if local_response != '':
+        result['ip_addresses'].add(local_response)
+        utils.print_response(data=result)
+        sys.exit(0)
 
     DNS_Client = Client()
     repeat_count = 0
@@ -59,6 +65,7 @@ if __name__ == "__main__":
                 result = data
                 break
             
+            # IP address is same, increase repeat count, break if repeat limit reached, else continue
             if data['ip_address'] in result['ip_addresses']:
                 repeat_count += 1
                 if repeat_count >= MAX_QUERIES_TO_GET_NEW_IP:
@@ -66,31 +73,20 @@ if __name__ == "__main__":
                 continue
             repeat_count = 0
 
+            # Add new IP address to result
             if not result['domain_name']:
                 result['domain_name'] = data['domain_name']
             result['ip_addresses'].add(data['ip_address'])
 
+            # If -a(--all) flag is not passed, return single IP
             if not many:
                 break
         except ValidationError as e:
-            print(str(e))
-
+            utils.print_errors(str(e))
             sys.exit(0)
 
     # Check for errors
     if result['errors']:
-        print(f"\n\
-        There was an error while handling a dns query.\n\n\
-        Error message: {result['errors']}")
+        utils.print_errors(errors=result['errors'])
     else:
-        ip_text = 'IP address:'
-        if len(result['ip_addresses']) > 1:
-            ip_text = 'IP addresses:'
-            
-        ip_addresses = f'{result["ip_addresses"].pop()}\n                          '
-        ip_addresses += '\n                          '.join(result["ip_addresses"])
-
-        print(f"\
-            Success!\n\
-            Domain name: {result['domain_name']}\n\
-            {ip_text} {ip_addresses}")
+        utils.print_response(data=result)
