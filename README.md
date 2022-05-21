@@ -1,6 +1,8 @@
 # Описание
 
-Программа позволяет получить IP адрес по доменному имени. [Последняя консольная версия программы](https://github.com/MatveyIvanov/DNS-Client/releases/tag/v1.0.0-console).
+Программа позволяет получить IP адрес по доменному имени.
+[Последняя консольная версия программы](https://github.com/MatveyIvanov/DNS-Client/releases/tag/v1.0.0-console)
+[Последняя GUI версия программы](https://github.com/MatveyIvanov/DNS-Client/releases/tag/v1.0.0-gui)
 Ниже приведена инструкция для разработки.
 
 # Установка
@@ -13,5 +15,5 @@
 Для получения IP адреса доменного имени запустите скрипт из терминала с переданным доменным именем в качестве первого параметра
 
 ```
-python main.py www.example.com
+python dns.py www.example.com
 ```
