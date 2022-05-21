@@ -46,8 +46,8 @@ def print_response(data: dict) -> None:
     if len(data['ip_addresses']) > 1:
         ip_text = 'IP addresses:'
         
-    ip_addresses = f'{data["ip_addresses"].pop()}\n                          '
-    ip_addresses += '\n                          '.join(data["ip_addresses"])
+    ip_addresses = f'{data["ip_addresses"].pop()}\n                      '
+    ip_addresses += '\n                      '.join(data["ip_addresses"])
 
     print(f"\
         Success!\n\
