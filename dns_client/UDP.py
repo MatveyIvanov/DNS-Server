@@ -160,5 +160,20 @@ class UDP:
         elif response_code == '5':
             # Query is refused
             result['errors'] ='Server refused query.'
+        elif response_code == '6':
+            # Name that should not exist, does exist
+            result['errors'] ='Name that should not exist, does exist.'
+        elif response_code == '7':
+            # RRset that should not exist, does exist
+            result['errors'] ='RRset that should not exist, does exist.'
+        elif response_code == '8':
+            # Server not authoritative for the zone
+            result['errors'] ='Server not authoritative for the zone.'
+        elif response_code == '9':
+            # Name not in zone
+            result['errors'] ='Name not in zone.'
+        else:
+            # Unknown response code
+            result['errors'] ='Unknown response code. Try again later'
 
         return result
