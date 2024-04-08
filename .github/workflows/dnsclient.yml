@@ -2,7 +2,7 @@ name: DNS Client Application
 
 on:
     push:
-        branches: ["cli", "dev", "main"]
+        branches: ["dev", "main"]
     pull_request:
 
 jobs:
