@@ -27,7 +27,7 @@ class DNSClient(Client[str, DNSResponse, DNSPacket]):
     def send(self, content: str) -> DNSPacket:
         """Send the packet to the server"""
         self._send(self.packet(content), (self.ip, self.port))
-        return self.packet
+        return self.packet  # type: ignore
 
     def recieve(self, packet: DNSPacket) -> DNSResponse:
         """

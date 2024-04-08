@@ -101,9 +101,9 @@ class QueryForDNSRecords(Query[DNSRecordQuery, DNSRecordResponse]):
             data: DNSResponse = self.client.recieve(packet)
 
             # retry on error block
-            if data.error:
+            if data.error or data.ip is None:
                 if retries_count >= self.max_retries:
-                    result.ips = None
+                    result.ips.clear()
                     result.error = data.error
                     return result
                 retries_count += 1

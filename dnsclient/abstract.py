@@ -19,8 +19,8 @@ class Query(ABC, Generic[T, V]):
 
 
 class Client(ABC, Generic[T, V, G]):
-    client: socket = None
-    READ_BUFFER: int = None
+    client: socket
+    READ_BUFFER: int
 
     @abstractmethod
     def send(self, content: T) -> G: ...
@@ -35,8 +35,8 @@ class Client(ABC, Generic[T, V, G]):
         return self.client.recvfrom(self.READ_BUFFER)
 
 
-class UDPPacket(ABC, Generic[T]):
-    content: T
+class UDPPacket(ABC, Generic[T, V]):
+    content: V
 
     @abstractmethod
     def __call__(self, content: T) -> bytes: ...

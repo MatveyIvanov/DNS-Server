@@ -1,3 +1,6 @@
+[![DNS Client](https://github.com/MatveyIvanov/DNS-Client/actions/workflows/dnsclient.yml/badge.svg)](https://github.com/MatveyIvanov/DNS-Client/actions/workflows/dnsclient.yml)
+![codecov](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MatveyIvanov/da8502c03cbe9b44e95867a78434b6b3/raw/3371f7c2f021ece0b8dd876a17c0177938ecc95f/DNSClientCoverage.json)
+
 # Описание
 
 Программа позволяет получить IP адрес по доменному имени.\

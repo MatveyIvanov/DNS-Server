@@ -8,8 +8,8 @@ from dnsclient.abstract import UDPPacket, UDPHandler
 from utils.entities import DNSQueryBase, DNSResponse, DNSQuery, DNSFormat
 
 
-class DNSPacket(UDPPacket[str]):
-    content: str
+class DNSPacket(UDPPacket[str, List[str]]):
+    content: List[str]
 
     def __call__(self, content: str) -> bytes:
         """
@@ -81,16 +81,12 @@ class DNSPacket(UDPPacket[str]):
         """
         Encodes either a positive integer or string to its hexadecimal representation.
         """
-
         result = "0"
-
-        if value.__class__.__name__ == "int" and value >= 0:
+        if isinstance(value, int) and value >= 0:
             result = hex(value)
-
             if value < 16:
                 result = "0" + result[2:]
-
-        elif value.__class__.__name__ == "str":
+        elif isinstance(value, str):
             result = "".join([hex(ord(symbol))[2:] for symbol in value])
 
         return "0x" + result
@@ -143,7 +139,9 @@ class DNSHandler(UDPHandler[DNSPacket, DNSResponse]):
             return DNSResponse(
                 code=0,
                 domain_name=".".join(host_name_from),
-                ip=".".join(  # IP address is usually stored in the last four octets of the DNS packet for A records.
+                # IP address is usually stored in
+                # the last four octets of the DNS packet for A records.
+                ip=".".join(
                     [
                         str(data[-32:-24].uintbe),
                         str(data[-24:-16].uintbe),

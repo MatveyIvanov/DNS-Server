@@ -53,12 +53,12 @@ class DNSClientCLI(CLI):
 
     def run(self, args: List[str]) -> None:
         self._validate_args(args)
-        args = self.parser.parse_args(args)
-        result: DNSRecordResponse = self.query(
+        namespace = self.parser.parse_args(args)
+        result: DNSRecordResponse = self.query(  # type: ignore
             entry=DNSRecordQuery(
-                domain_name=args.domain,
-                many=args.many,
-                force=args.force,
+                domain_name=namespace.domain,
+                many=namespace.many,
+                force=namespace.force,
             )
         )
 
@@ -79,7 +79,7 @@ class DNSClientCLI(CLI):
         )
 
     def _show_result(self, result: DNSRecordResponse) -> None:
-        ip_text = "IP address:"
+        ip_text = "IP address: "
         if len(result.ips) > 1:
             ip_text = "IP addresses: "
 

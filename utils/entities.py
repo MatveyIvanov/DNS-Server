@@ -1,17 +1,17 @@
 import argparse
 from dataclasses import dataclass
-from typing import List, Any, Dict, Union, Tuple
+from typing import List, Any, Dict, Union, Sequence
 
 
 @dataclass
 class CLIArgument:
-    flags: Tuple[str]
+    flags: Sequence[str]
     help: str = ""
     default: Any = None
     const: Any = None
     nargs: str | None = None
     choices: List[str] | None = None
-    action: argparse.Action | None = None
+    action: type[argparse.Action] | None = None
 
 
 @dataclass
@@ -25,7 +25,7 @@ class DNSRecordQuery:
 class DNSRecordResponse:
     domain_name: str
     many: bool
-    ips: List[str] | None = None
+    ips: List[str]
     error: str | None = None
 
 
