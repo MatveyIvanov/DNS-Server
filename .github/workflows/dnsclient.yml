@@ -39,29 +39,29 @@ jobs:
             - name: Types analysis with mypy
               run: |
                 poetry run mypy --config-file=pyproject.toml .
-            # - name: Test with pytest
-            #   run: |
-            #     poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=. | tee test-results.txt
-            # - name: Pytest coverage comment
-            #   id: coverageComment
-            #   uses: MishaKav/pytest-coverage-comment@main
-            #   with:
-            #     pytest-coverage-path: ./test-results.txt
-            #     hide-badge: false
-            #     hide-report: false
-            #     create-new-comment: true
-            #     hide-comment: false
-            #     report-only-changed-files: true
-            #     remove-link-from-badge: true
-            #     junitxml-path: ./test-results.xml
-            # - name: Pytest coverage badge
-            #   if: ${{ github.ref == 'refs/heads/main' }}
-            #   uses: schneegans/dynamic-badges-action@v1.6.0
-            #   with:
-            #     auth: ${{ secrets.GIST_SECRET }}
-            #     gistID: da8502c03cbe9b44e95867a78434b6b3
-            #     filename: DNSClientCoverage.json
-            #     label: Coverage
-            #     message: ${{ steps coverageComment.outputs.coverage }}
-            #     color: ${{ steps coverageComment.outputs.color }}
-            #     namedLogo: dnsclient
+            - name: Test with pytest
+              run: |
+                poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=. | tee test-results.txt
+            - name: Pytest coverage comment
+              id: coverageComment
+              uses: MishaKav/pytest-coverage-comment@main
+              with:
+                pytest-coverage-path: ./test-results.txt
+                hide-badge: false
+                hide-report: false
+                create-new-comment: true
+                hide-comment: false
+                report-only-changed-files: true
+                remove-link-from-badge: true
+                junitxml-path: ./test-results.xml
+            - name: Pytest coverage badge
+              if: ${{ github.ref == 'refs/heads/main' }}
+              uses: schneegans/dynamic-badges-action@v1.6.0
+              with:
+                auth: ${{ secrets.GIST_SECRET }}
+                gistID: da8502c03cbe9b44e95867a78434b6b3
+                filename: DNSClientCoverage.json
+                label: Coverage
+                message: ${{ steps coverageComment.outputs.coverage }}
+                color: ${{ steps coverageComment.outputs.color }}
+                namedLogo: dnsclient
