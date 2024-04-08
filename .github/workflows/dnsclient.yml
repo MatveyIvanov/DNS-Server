@@ -1,4 +1,4 @@
-name: DNS Client Application
+name: DNS Client Application and CLI
 
 on:
     push:
