@@ -6,4 +6,5 @@ exclude =
     Dockerfile
     .env
     venv
+    .venv
     config/config.py
