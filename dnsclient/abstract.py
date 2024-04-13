@@ -19,7 +19,7 @@ class Query(ABC, Generic[T, V]):
 
 
 class Client(ABC, Generic[T, V, G]):
-    _client: socket
+    _client: socket | None
     READ_BUFFER: int
 
     @property
