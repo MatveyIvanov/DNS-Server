@@ -1,0 +1,10 @@
+[flake8]
+exclude =
+    .pypy_cache
+    .pytest_cache
+    .coverate
+    Dockerfile
+    .env
+    venv
+    .venv
+    config/config.py
