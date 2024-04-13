@@ -8,6 +8,7 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        environment: production
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-python@v2
@@ -61,7 +62,7 @@ jobs:
                 auth: ${{ secrets.GIST_SECRET }}
                 gistID: da8502c03cbe9b44e95867a78434b6b3
                 filename: DNSClientCoverage.json
-                label: Coverage
+                label: coverage
                 message: ${{ steps.coverageComment.outputs.coverage }}
                 color: ${{ steps.coverageComment.outputs.color }}
-                namedLogo: dnsclient
+                namedLogo: coverage
