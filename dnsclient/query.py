@@ -51,6 +51,8 @@ class QueryForLocalRecords(Query[DNSRecordQuery, DNSRecordResponse]):
                     continue
                 if domain == entry.domain_name:
                     result.ips.append(address)
+                if not entry.many:
+                    break
         if not result.ips:
             return None
         return result
