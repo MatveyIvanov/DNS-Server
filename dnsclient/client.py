@@ -6,7 +6,10 @@ from utils.entities import DNSResponse
 
 
 class DNSClient(Client[str, DNSResponse, DNSPacket]):
-    READ_BUFFER = 1024  # The size of the buffer to read in the received UDP packet.
+    _client: socket = None
+    READ_BUFFER: int = (
+        1024  # The size of the buffer to read in the received UDP packet.
+    )
 
     def __init__(
         self,
@@ -20,9 +23,13 @@ class DNSClient(Client[str, DNSResponse, DNSPacket]):
         self.packet = packet
         self.handler = handler
 
-        self.client = socket.socket(
-            socket.AF_INET, socket.SOCK_DGRAM
-        )  # Address family: Internet, type: UDP
+    @property
+    def client(self) -> socket:
+        if not self._client:
+            self._client = socket.socket(
+                socket.AF_INET, socket.SOCK_DGRAM
+            )  # Address family: Internet, type: UDP
+        return self._client
 
     def send(self, content: str) -> DNSPacket:
         """Send the packet to the server"""
